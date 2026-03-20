@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="theme-color" content="#0b1020" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Loki Max" />
+  <title>Loki Max</title>
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="icon" href="icon-192.png" />
+  <link rel="apple-touch-icon" href="icon-192.png" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div id="app">
+    <div class="shell">
+      <header class="topbar">
+        <div class="brand-wrap">
+          <div class="brand-icon">LM</div>
+          <div>
+            <div class="eyebrow">Live Betting OS</div>
+            <div class="brand">Loki Max</div>
+          </div>
+        </div>
+        <div class="top-actions">
+          <button id="installBtn" class="icon-btn ghost hidden" aria-label="Install">Install</button>
+          <button id="refreshBtn" class="icon-btn" aria-label="Refresh">↻</button>
+        </div>
+      </header>
+
+      <main class="content">
+        <section class="hero card">
+          <div class="hero-main">
+            <div>
+              <div class="muted tiny">Portfolio</div>
+              <div class="bankroll" id="bankrollValue">1,000 USD.bit</div>
+              <div class="muted">1 USD.bit = 1 USD</div>
+            </div>
+            <button id="modeButton" class="mode-pill">Balanced ▾</button>
+          </div>
+          <div class="stats-grid">
+            <div class="stat">
+              <div class="muted tiny">ROI</div>
+              <div class="stat-value" id="roiValue">0.0%</div>
+            </div>
+            <div class="stat">
+              <div class="muted tiny">Win Rate</div>
+              <div class="stat-value" id="winRateValue">0%</div>
+            </div>
+            <div class="stat">
+              <div class="muted tiny">Streak</div>
+              <div class="stat-value" id="streakValue">—</div>
+            </div>
+          </div>
+          <div class="micro-row">
+            <div class="muted tiny">Mode changes bet sizing, risk, and play filtering</div>
+            <div class="badge" id="modeBadge">BALANCED</div>
+          </div>
+        </section>
+
+        <section id="tab-home" class="tab-view active">
+          <div class="section-head">
+            <div>
+              <div class="section-title">Top Plays</div>
+              <div class="muted">Best live opportunities right now</div>
+            </div>
+            <button class="text-btn" data-tab-jump="plays">See all</button>
+          </div>
+          <div id="topPlays"></div>
+
+          <div class="section-head compact">
+            <div class="section-title">Quick Intel</div>
+          </div>
+          <section class="card intel-card">
+            <div class="intel-grid">
+              <div>
+                <div class="muted tiny">Signal Trend</div>
+                <div class="intel-value" id="signalTrendValue">Heating up</div>
+              </div>
+              <div>
+                <div class="muted tiny">Auto Mode</div>
+                <div class="intel-value" id="autoModeValue">Manual</div>
+              </div>
+              <div>
+                <div class="muted tiny">Live Games</div>
+                <div class="intel-value" id="liveGamesValue">0</div>
+              </div>
+            </div>
+          </section>
+
+          <div class="section-head compact">
+            <div class="section-title">Recent Bets</div>
+            <button class="text-btn" data-tab-jump="bets">Open ledger</button>
+          </div>
+          <div id="recentBets"></div>
+        </section>
+
+        <section id="tab-plays" class="tab-view">
+          <div class="section-head">
+            <div>
+              <div class="section-title">All Plays</div>
+              <div class="muted">Filtered by current mode</div>
+            </div>
+          </div>
+          <div id="allPlays"></div>
+        </section>
+
+        <section id="tab-bets" class="tab-view">
+          <div class="section-head">
+            <div>
+              <div class="section-title">Bet Ledger</div>
+              <div class="muted">Your tracked positions and results</div>
+            </div>
+            <button class="text-btn danger" id="resetBetsBtn">Reset</button>
+          </div>
+
+          <section class="card ledger-summary">
+            <div class="ledger-grid">
+              <div>
+                <div class="muted tiny">Open Bets</div>
+                <div class="stat-value" id="openBetsValue">0</div>
+              </div>
+              <div>
+                <div class="muted tiny">Settled</div>
+                <div class="stat-value" id="settledBetsValue">0</div>
+              </div>
+              <div>
+                <div class="muted tiny">Profit</div>
+                <div class="stat-value" id="profitValue">0 USD.bit</div>
+              </div>
+            </div>
+          </section>
+
+          <div id="betLedger"></div>
+        </section>
+
+        <section id="tab-profile" class="tab-view">
+          <div class="section-head">
+            <div>
+              <div class="section-title">Profile & Settings</div>
+              <div class="muted">Control how Loki Max behaves</div>
+            </div>
+          </div>
+
+          <section class="card settings-card">
+            <label class="setting-row">
+              <span>
+                <strong>Auto mode</strong>
+                <small>Show system in manual or auto-ready posture</small>
+              </span>
+              <input id="autoToggle" type="checkbox" />
+            </label>
+
+            <label class="setting-row">
+              <span>
+                <strong>Starting bankroll</strong>
+                <small>Resettable reference point for ROI</small>
+              </span>
+              <input id="bankrollInput" type="number" min="100" step="50" />
+            </label>
+
+            <button id="saveSettingsBtn" class="primary-btn full">Save Settings</button>
+          </section>
+
+          <section class="card notes-card">
+            <div class="section-title small-title">App Status</div>
+            <ul class="notes-list">
+              <li>Installable Android PWA</li>
+              <li>Local simulation state with persistent storage</li>
+              <li>Mobile-first dashboard, top plays, and bet tracking</li>
+              <li>Ready to wire into live backend next</li>
+            </ul>
+          </section>
+        </section>
+      </main>
+
+      <nav class="bottom-nav">
+        <button class="nav-btn active" data-tab="home">
+          <span>⌂</span><span>Home</span>
+        </button>
+        <button class="nav-btn" data-tab="plays">
+          <span>◎</span><span>Plays</span>
+        </button>
+        <button class="nav-btn" data-tab="bets">
+          <span>▣</span><span>Bets</span>
+        </button>
+        <button class="nav-btn" data-tab="profile">
+          <span>◌</span><span>Profile</span>
+        </button>
+      </nav>
+    </div>
+
+    <div id="modeModal" class="modal hidden">
+      <div class="backdrop"></div>
+      <div class="sheet">
+        <div class="sheet-head">
+          <div class="section-title">Choose Mode</div>
+          <button class="icon-btn ghost close-modal">✕</button>
+        </div>
+        <div class="mode-options" id="modeOptions"></div>
+      </div>
+    </div>
+
+    <div id="betModal" class="modal hidden">
+      <div class="backdrop"></div>
+      <div class="sheet">
+        <div class="sheet-head">
+          <div class="section-title">Confirm Bet</div>
+          <button class="icon-btn ghost close-bet-modal">✕</button>
+        </div>
+        <div id="betModalContent"></div>
+      </div>
+    </div>
+
+    <div id="toast" class="toast hidden"></div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
